@@ -1,21 +1,20 @@
 package apiserver
 
 import (
-	"io"
-	"net/http"
-
+	"github.com/dwnGnL/taxi/internal/app/store"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
+	"io"
+	"net/http"
 )
 
-//APIServer ...
 type APIServer struct {
 	config *Config
 	logger *logrus.Logger
 	router *mux.Router
+	store  *store.Store
 }
 
-//New ...
 func New(config *Config) *APIServer {
 	return &APIServer{
 		config: config,
@@ -24,7 +23,6 @@ func New(config *Config) *APIServer {
 	}
 }
 
-//Start ...
 func (s *APIServer) Start() error {
 	if err := s.configureLogger(); err != nil {
 		return err
@@ -32,9 +30,9 @@ func (s *APIServer) Start() error {
 
 	s.configureRouter()
 
-	//if err := s.configureStore(); err != nil {
-	//	return err
-	//}
+	if err := s.configureStore(); err != nil {
+		return err
+	}
 
 	s.logger.Info("starting server")
 
@@ -55,16 +53,16 @@ func (s *APIServer) configureRouter() {
 	s.router.HandleFunc("/ping", s.handlePing())
 }
 
-//func (s *APIServer) configureStore() error {
-//	st := store.New(s.config.Store)
-//	if err := st.Open(); err != nil {
-//		return err
-//	}
-//
-//	s.store = st
-//
-//	return nil
-//}
+func (s *APIServer) configureStore() error {
+	st := store.New(s.config.Store)
+	if err := st.Open(); err != nil {
+		return err
+	}
+
+	s.store = st
+
+	return nil
+}
 
 func (s *APIServer) handlePing() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
