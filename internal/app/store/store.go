@@ -44,5 +44,5 @@ func (s *Store) User() *user.UserRepository {
 // Close ...
 func (s *Store) Close() {
 	sqlDB, _ := s.DB.DB()
-	sqlDB.Close()
+	_ = sqlDB.Close()
 }
