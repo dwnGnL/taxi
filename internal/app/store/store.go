@@ -8,7 +8,7 @@ import (
 
 type Store struct {
 	config         *Config
-	DB             *gorm.DB
+	db             *gorm.DB
 	userRepository *user.UserRepository
 }
 
@@ -27,7 +27,7 @@ func (s *Store) Open() error {
 		return err
 	}
 
-	s.DB = db
+	s.db = db
 	return nil
 }
 
@@ -35,14 +35,12 @@ func (s *Store) User() *user.UserRepository {
 	if s.userRepository != nil {
 		return s.userRepository
 	}
-	s.userRepository = &user.UserRepository{
-		Store: s,
-	}
+	s.userRepository = user.New(s.db)
 	return s.userRepository
 }
 
 // Close ...
 func (s *Store) Close() {
-	sqlDB, _ := s.DB.DB()
+	sqlDB, _ := s.db.DB()
 	_ = sqlDB.Close()
 }
