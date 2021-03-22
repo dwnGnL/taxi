@@ -1,13 +1,15 @@
 package store
 
 import (
+	"github.com/dwnGnL/taxi/internal/app/store/repositories/user"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 type Store struct {
-	config *Config
-	db     *gorm.DB
+	config         *Config
+	DB             *gorm.DB
+	userRepository *user.UserRepository
 }
 
 func New(config *Config) *Store {
@@ -25,12 +27,22 @@ func (s *Store) Open() error {
 		return err
 	}
 
-	s.db = db
+	s.DB = db
 	return nil
+}
+
+func (s *Store) User() *user.UserRepository {
+	if s.userRepository != nil {
+		return s.userRepository
+	}
+	s.userRepository = &user.UserRepository{
+		Store: s,
+	}
+	return s.userRepository
 }
 
 // Close ...
 func (s *Store) Close() {
-	sqlDB, _ := s.db.DB()
+	sqlDB, _ := s.DB.DB()
 	sqlDB.Close()
 }
