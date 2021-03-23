@@ -4,13 +4,25 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 type User struct {
-	ID                int    `gorm:"primary_key"`
-	Email             string `gorm:"column:email"`
-	Password          string `gorm:"-"`
-	EncryptedPassword string `gorm:"column:encrypted_password"`
+	ID                int        `gorm:"primaryKey"`
+	RoleID            int        `gorm:"column:role_id"`
+	Email             string     `gorm:"column:email"`
+	Phone             string     `gorm:"column:phone"`
+	PhoneVerifiedAt   *time.Time `gorm:"column:phone_verified_at"`
+	CreatedAt         *time.Time `gorm:"column:created_at"`
+	UpdatedAt         *time.Time `gorm:"column:updated_at"`
+	EmailVerifiedAt   *time.Time `gorm:"column:email_verified_at"`
+	FirstName         string     `gorm:"column:first_name"`
+	LastName          string     `gorm:"column:last_name"`
+	About             string     `gorm:"column:about"`
+	Age               int        `gorm:"age"`
+	IDConfirmation    *time.Time `gorm:"column:id_confirmation"`
+	Password          string     `gorm:"-"`
+	EncryptedPassword string     `gorm:"column:password"`
 }
 
 // Validate
