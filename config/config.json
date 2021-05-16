@@ -1,0 +1,22 @@
+{
+    "http":{
+        "port":":8085",
+        "readTimeout": 10000000000,
+        "writeTimeout": 10000000000,
+        "maxHeaderBytes": 1
+    },
+
+    "jwt_token":{
+        "signingkey": "key",
+        "expiredduration": 300000000000
+    },
+
+    "database": {
+        "DBMS": "postgres",
+        "username": "postgres",
+        "password": "sql",
+        "host": "localhost",
+        "port": "5432",
+        "dbname": "Travel"
+    }
+}

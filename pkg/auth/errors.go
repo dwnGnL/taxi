@@ -1,0 +1,16 @@
+package auth
+
+import "errors"
+
+var (
+	// ErrUserNotFound ...
+	ErrUserNotFound = errors.New("user not found")
+	// ErrUserAlreadyExists ...
+	ErrUserAlreadyExists = errors.New("user already exists")
+	// ErrInvalidAccessToken ...
+	ErrInvalidAccessToken = errors.New("invalid access token")
+	// ErrUndefindedError ...
+	ErrUndefindedError = errors.New("undefined error")
+	// ErrIncorrectLoginOrPassword ...
+	ErrIncorrectLoginOrPassword = errors.New("incorrect login or password")
+)
